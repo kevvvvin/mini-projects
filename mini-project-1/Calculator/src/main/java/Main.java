@@ -5,26 +5,28 @@ public class Main {
         Calculator calculator = new Calculator();
         Scanner sc = new Scanner(System.in);
 
+        System.out.println("Calculator is now on!");
+        System.out.println("Enter [q or Q] to turn off.\n");
+
         while (calculator.isRunning) {
-            System.out.println(calculator.total);
-
-            String input = sc.next();
-            if (calculator.InputIsNumber(input)) {
-                calculator.total += Double.parseDouble(input);
-            }
-            else {
-                System.out.println("Not a number.");
-                continue;
+            while (!calculator.isNumValid && calculator.isRunning) {
+                System.out.print("Enter a number: ");
+                String num = sc.next();
+                if (calculator.InputIsNumber(num)) {
+                    calculator.HandleArithmetic(num);
+                }
             }
 
-            input = sc.next();
-            if (calculator.InputIsOperator(input)) {
-                calculator.SetOperation(input);
+            while (!calculator.isOperatorValid && calculator.isRunning) {
+                System.out.print("Enter an operator [+, -, *, /]: ");
+                String operator = sc.next();
+                if (calculator.InputIsOperator(operator)) {
+                    calculator.SetOperation(operator);
+                }
             }
-            else {
-                System.out.println("Not a valid operator.");
-                continue;
-            }
+
+            calculator.isNumValid = false;
+            calculator.isOperatorValid = false;
         }
     }
 }
