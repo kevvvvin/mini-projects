@@ -1,5 +1,3 @@
-import java.util.Stack;
-
 public class Calculator {
     private double total;
     private String operation;
@@ -15,6 +13,7 @@ public class Calculator {
         this.isOperatorValid = false;
     }
 
+    // Checks if the user input is a valid number or if user wants to quit
     public boolean InputIsNumber(String input) {
         if (input.equalsIgnoreCase("Q")) {
             TogglePower();
@@ -27,6 +26,7 @@ public class Calculator {
                 System.out.println("Cannot divide by 0.");
                 return false;
             }
+            this.isNumValid = true;
             return true;
         } catch (Exception e) {
             System.out.println("Not a valid number.");
@@ -34,44 +34,40 @@ public class Calculator {
         }
     }
 
+    // Checks if the user input is a valid operator or if user wants to quit
     public boolean InputIsOperator(String input) {
         switch (input) {
             case "+", "-", "/", "*":
+                this.isOperatorValid = true;
                 return true;
             case "q", "Q":
                 TogglePower();
                 break;
             default:
                 System.out.println("Not a valid operator.");
-                return false;
+                break;
         }
         return false;
     }
 
+    // Handles arithmetic operations based on operator provided by the user
     public void HandleArithmetic(String input) {
         if (this.operation.isEmpty() || this.operation.equals("+")) {
             this.total = Add(this.total, Double.parseDouble(input));
-            this.isNumValid = true;
         }
         else if (this.operation.equals("-")){
             this.total = Subtract(this.total, Double.parseDouble(input));
-            this.isNumValid = true;
         }
         else if (this.operation.equals("*")){
             this.total = Multiply(this.total, Double.parseDouble(input));
-            this.isNumValid = true;
         }
         else if (this.operation.equals("/")){
-            double num = Double.parseDouble(input);
-            if (num != 0) {
-                this.total = Divide(this.total, num);
-                this.isNumValid = true;
-            }
+            this.total = Divide(this.total, Double.parseDouble(input));
         }
 
+        // Prevent printing total value if input is the first number
         if (!this.operation.isEmpty()) {
             System.out.println("Total: "+ this.total);
-            this.operation = "";
         }
     }
 
@@ -82,7 +78,6 @@ public class Calculator {
 
     public void SetOperation(String input) {
         this.operation = input;
-        this.isOperatorValid = true;
     }
 
     public double Add(double x, double y) {
@@ -100,6 +95,4 @@ public class Calculator {
     public double Divide(double x, double y) {
         return x / y;
     }
-
-
 }
