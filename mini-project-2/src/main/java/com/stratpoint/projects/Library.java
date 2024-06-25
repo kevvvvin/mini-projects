@@ -1,9 +1,10 @@
 package com.stratpoint.projects;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class Library {
-    private ArrayList<Book> books;
+    private List<Book> books;
 
     public Library() {
         this.books = new ArrayList<>();
@@ -23,7 +24,7 @@ public class Library {
         System.out.println("TODO: Search for a book");
     }
 
-    public ArrayList<Book> getAvailableBooks() {
+    public List<Book> getAvailableBooks() {
         return this.books;
     }
 }
