@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.stratpoint.projects</groupId>
-    <artifactId>library-management-system</artifactId>
+    <artifactId>mini-project-1</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -31,7 +31,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <mainClass>Main</mainClass>
+                    <mainClass>com.stratpoint.projects.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>

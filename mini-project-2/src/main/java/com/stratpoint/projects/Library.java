@@ -1,3 +1,5 @@
+package com.stratpoint.projects;
+
 import java.util.ArrayList;
 
 public class Library {

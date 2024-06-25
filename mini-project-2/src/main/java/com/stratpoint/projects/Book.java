@@ -1,3 +1,5 @@
+package com.stratpoint.projects;
+
 public class Book {
     private String title;
     private String author;

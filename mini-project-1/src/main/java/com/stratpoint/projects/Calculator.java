@@ -1,3 +1,5 @@
+package com.stratpoint.projects;
+
 import java.util.Scanner;
 
 public class Calculator {
