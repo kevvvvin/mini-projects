@@ -6,7 +6,7 @@ public class PhysicalBook extends Book{
 
     public PhysicalBook(String title, String author, String genre,  String ISBN, int pages) {
         super(title, author, genre, ISBN);
-        this.type = "physical";
+        this.type = "Physical";
         this.pages = pages;
     }
 }

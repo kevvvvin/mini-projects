@@ -6,7 +6,7 @@ public class AudioBook extends Book{
 
     public AudioBook(String title, String author, String genre, String ISBN, double length ) {
         super(title, author, genre, ISBN);
-        this.type = "audio";
+        this.type = "Audio";
         this.lengthInMinutes = length;
     }
 }
