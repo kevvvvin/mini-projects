@@ -123,6 +123,9 @@ public class Library {
             String gapRight = " ";
             int foundBooks = 0;
 
+            this.displayPageHeader();
+            System.out.print("\n");
+
             for (Book book : this.books) {
                 // Check if the book's title, author, genre, or ISBN contains the search query
                 if (book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
@@ -133,7 +136,23 @@ public class Library {
                     System.out.print(gapLeft + book.getTitle() + gapRight);
                     System.out.print(gapLeft + book.getAuthor() + gapRight);
                     System.out.print(gapLeft + book.getGenre() + gapRight);
-                    System.out.print(gapLeft + book.getISBN() + gapRight + "\n");
+                    System.out.print(gapLeft + book.getISBN() + gapRight);
+
+                    if (book instanceof AudioBook) {
+                        AudioBook audioBook = (AudioBook) book;
+                        System.out.print(gapLeft + audioBook.getType() + gapRight);
+                        System.out.print(gapLeft + audioBook.getLength() + " minutes" + gapRight + "\n");
+                    }
+                    else if (book instanceof ElectronicBook) {
+                        ElectronicBook electronicBook = (ElectronicBook) book;
+                        System.out.print(gapLeft + electronicBook.getType() + gapRight);
+                        System.out.print(gapLeft + electronicBook.getPages() + " pages" + gapRight + "\n");
+                    }
+                    else if (book instanceof PhysicalBook) {
+                        PhysicalBook physicalBook = (PhysicalBook) book;
+                        System.out.print(gapLeft + physicalBook.getType() + gapRight);
+                        System.out.print(gapLeft + physicalBook.getPages() + " pages" + gapRight + "\n");
+                    }
 
                     foundBooks++;
                 }
@@ -163,11 +182,7 @@ public class Library {
         String gapRight = " ";
 
         // Print the header row for the table
-        System.out.print("\nID ");
-        System.out.print(gapLeft + "TITLE" + gapRight);
-        System.out.print(gapLeft + "AUTHOR" + gapRight);
-        System.out.print(gapLeft + "GENRE" + gapRight);
-        System.out.print(gapLeft + "ISBN" + gapRight);
+        this.displayPageHeader();
         System.out.print(gapLeft + "Page " + this.page + gapRight + "\n");
 
         // Check if there are any books in the library
@@ -186,7 +201,23 @@ public class Library {
             System.out.print(gapLeft + book.getTitle() + gapRight);
             System.out.print(gapLeft + book.getAuthor() + gapRight);
             System.out.print(gapLeft + book.getGenre() + gapRight);
-            System.out.print(gapLeft + book.getISBN() + gapRight + "\n");
+            System.out.print(gapLeft + book.getISBN() + gapRight);
+
+            if (book instanceof AudioBook) {
+                AudioBook audioBook = (AudioBook) book;
+                System.out.print(gapLeft + audioBook.getType() + gapRight);
+                System.out.print(gapLeft + audioBook.getLength() + " minutes" + gapRight + "\n");
+            }
+            else if (book instanceof ElectronicBook) {
+                ElectronicBook electronicBook = (ElectronicBook) book;
+                System.out.print(gapLeft + electronicBook.getType() + gapRight);
+                System.out.print(gapLeft + electronicBook.getPages() + " pages" + gapRight + "\n");
+            }
+            else if (book instanceof PhysicalBook) {
+                PhysicalBook physicalBook = (PhysicalBook) book;
+                System.out.print(gapLeft + physicalBook.getType() + gapRight);
+                System.out.print(gapLeft + physicalBook.getPages() + " pages" + gapRight + "\n");
+            }
         }
     }
 
@@ -263,12 +294,10 @@ public class Library {
                 break;
             case "d", "D":
                 // Go to the next page
-                logger.info("Going to the next page of the library");
                 this.nextPage();
                 break;
             case "a", "A":
                 // Go to the previous page
-                logger.info("Going to the previous page of the library");
                 this.prevPage();
                 break;
             case "q", "Q":
@@ -430,6 +459,25 @@ public class Library {
 
         // Print the instructions for exiting the program
         System.out.println("[q] Exit program");
+    }
+
+    /**
+     * This method prints the header row for the table.
+     * It includes the column names for ID, Title, Author, Genre, ISBN, Type, and Pages or Length in Minutes.
+     */
+    private void displayPageHeader() {
+        // Define the spacing between columns
+        String gapLeft = "| ";
+        String gapRight = " ";
+
+        // Print the header row for the table
+        System.out.print("\nID ");
+        System.out.print(gapLeft + "TITLE" + gapRight);
+        System.out.print(gapLeft + "AUTHOR" + gapRight);
+        System.out.print(gapLeft + "GENRE" + gapRight);
+        System.out.print(gapLeft + "ISBN" + gapRight);
+        System.out.print(gapLeft + "TYPE" + gapRight);
+        System.out.print(gapLeft + "PAGES OR LENGTH IN MINUTES" + gapRight);
     }
 
     /**
