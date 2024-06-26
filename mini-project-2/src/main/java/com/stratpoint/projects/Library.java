@@ -18,39 +18,98 @@ public class Library {
         this.isOpen = true;
     }
 
-    private void addBook(Book book) {
-        if (book != null) {
-            this.books.add(book);
-            System.out.println("\n" + book.getTitle() + " - " + book.getISBN() +
-                " by " + book.getAuthor() + " has been added to the library!");
+    /**
+     * Adds a new book to the library if it is not already present.
+     *
+     * @param  newBook  the book to be added to the library
+     */
+    private void addBook(Book newBook) {
+        if (newBook != null) {
+            // Check if book is in the library
+            for (Book book: this.books) {
+                if (book.getISBN().equals(newBook.getISBN())) {
+                    System.out.println("\nThis book is already in the library!");
+                    return;
+                }
+            }
+
+            this.books.add(newBook);
+            System.out.println("\n" + newBook.getTitle() + " - " + newBook.getISBN() +
+                " by " + newBook.getAuthor() + " has been added to the library!");
         }
         else {
             System.out.println("An error occurred while adding a new book!");
         }
     }
 
-    // Remove a book from the library
+    /**
+     * This method removes a book from the library based on the provided book ID.
+     *
+     * @param sc Scanner object to read user input.
+     */
     private void removeBook(Scanner sc) {
         try {
+            // Prompt user to enter the book ID to remove
             System.out.print("Enter a book ID to remove: ");
-            int ID = sc.nextInt();
 
-            this.books.removeIf(book -> book.getID() == ID);
-            // System.out.println(book.getTitle() + " has been removed from the library!");
-        }
-        catch (Exception e) {
+            // Read the book ID from user input
+            int idx = sc.nextInt();
+            sc.nextLine();
+
+            Book book = this.books.get(idx-1);
+
+            // Remove the book from the library at the specified index
+            this.books.remove(idx-1);
+
+            // Uncomment the following line if you want to print a message upon successful removal
+            System.out.println("\n" + book.getTitle() + " has been removed from the library!");
+        } catch (Exception e) {
+            // Print an error message if an exception occurs during the removal process
             System.out.println("An error occurred while removing a book!");
         }
     }
 
     private void searchBook(Scanner sc) {
-        System.out.print("Enter search query: ");
-        String query = sc.nextLine();
+        while (true) {
+            System.out.print("Enter search query: ");
+            String query = sc.nextLine();
+
+            String gapLeft = "| ";
+            String gapRight = " ";
+
+            for (Book book : this.books) {
+                if (book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                    book.getAuthor().toLowerCase().contains(query.toLowerCase()) ||
+                    book.getGenre().toLowerCase().contains(query.toLowerCase()) ||
+                    book.getISBN().equals(query)) {
+                    System.out.print(gapLeft + book.getTitle() + gapRight);
+                    System.out.print(gapLeft + book.getAuthor() + gapRight);
+                    System.out.print(gapLeft + book.getGenre() + gapRight);
+                    System.out.print(gapLeft + book.getISBN() + gapRight + "\n");
+                }
+            }
+
+            System.out.print("\nContinue searching? (y / Y): ");
+            String cont = sc.nextLine();
+
+            if (!cont.equalsIgnoreCase("y"))
+                break;
+        }
     }
 
     // Display the books in the current page of the library and the current page
     public void displayCurrentPage() {
-        System.out.println("ID ||   TITLE    ||   AUTHOR   ||   GENRE   ||   ISBN   ||   Page " + this.page);
+        // TODO: fix formatting
+        String gapLeft = "| ";
+        String gapRight = " ";
+
+        System.out.print("\nID ");
+        System.out.print(gapLeft + "TITLE" + gapRight);
+        System.out.print(gapLeft + "AUTHOR" + gapRight);
+        System.out.print(gapLeft + "GENRE" + gapRight);
+        System.out.print(gapLeft + "ISBN" + gapRight);
+        System.out.print(gapLeft + "Page " + this.page + gapRight + "\n");
+
 
         if (this.books.isEmpty()) {
             System.out.println("There are no books in the library!");
@@ -61,8 +120,11 @@ public class Library {
 
         for (int i=this.firstItemIdx; i < lastItem; i++) {
             Book book = this.books.get(i);
-            System.out.println(book.getID() + " |     " + book.getTitle() + "     |     " + book.getAuthor() + "     |     "
-                    + book.getGenre() + "     |     " + book.getISBN() + "     |     ");
+            System.out.print(i+1 + gapRight);
+            System.out.print(gapLeft + book.getTitle() + gapRight);
+            System.out.print(gapLeft + book.getAuthor() + gapRight);
+            System.out.print(gapLeft + book.getGenre() + gapRight);
+            System.out.print(gapLeft + book.getISBN() + gapRight + "\n");
         }
     }
 
@@ -160,19 +222,16 @@ public class Library {
                     return input;
                 }
             }
-
             // Validate author input
             if (inputType.equalsIgnoreCase("author")) {
                 if (Pattern.matches(AUTHOR_REGEX, input)) {
                     return input;
                 }
             }
-
             // Validate genre input
             if (inputType.equalsIgnoreCase("genre")) {
                 if (Pattern.matches(GENRE_REGEX, input)) { return input; }
             }
-
             // Validate genre input
             if (inputType.equalsIgnoreCase("ISBN")) {
                 if (Pattern.matches(ISBN_REGEX, input)) { return input; }
@@ -192,25 +251,11 @@ public class Library {
                     if (length > 0)
                         return input;
                 } catch (Exception e) {
-                    // do stuff
+                    // todo:  do stuff
                 }
             }
 
             System.out.print("Invalid " + inputType + "! Try again: ");
-        }
-    }
-
-    private String getValidBookType(Scanner sc) {
-        System.out.print("Enter a book type (physical, electronic, audio): ");
-        while (true) {
-            String input = sc.nextLine();
-
-            if (input.equalsIgnoreCase("physical") ||
-                input.equalsIgnoreCase("electronic") ||
-                input.equalsIgnoreCase("audio"))
-                return input;
-
-            System.out.print("Invalid book type! Try again: ");
         }
     }
 

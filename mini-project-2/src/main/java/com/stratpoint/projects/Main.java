@@ -14,7 +14,6 @@ public class Main {
             library.displayCurrentPage();
             System.out.print("\nEnter a command: ");
             library.handleLibraryCommands(sc);
-
         }
 
         sc.close();
