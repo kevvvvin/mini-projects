@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Library {
-    private List<Book> books;
+    private final List<Book> books;
     private int page;
     private int firstItemIdx = 0;
     public boolean isOpen;
@@ -18,47 +18,15 @@ public class Library {
         this.isOpen = true;
     }
 
-    // Add a book to the library
-    public void addBook(Scanner sc) {
-        // todo: input handling loop if not valid
-        System.out.print("Enter a title: ");
-        String title = sc.nextLine();
-
-        System.out.print("Enter an author: ");
-        String author = sc.nextLine();
-
-        System.out.print("Enter a genre: ");
-        String genre = sc.nextLine();
-
-        System.out.print("Enter an ISBN: ");
-        String ISBN = sc.nextLine();
-
-        System.out.print("Enter a type (physical/electronic/audio): ");
-        String type = sc.nextLine();
-
-        switch (type) {
-            case "physical" -> {
-                System.out.print("Enter number of pages: ");
-                int pages = sc.nextInt();
-                this.books.add(new PhysicalBook(title, author, genre, ISBN, pages));
-            }
-            case "electronic" -> {
-                System.out.print("Enter number of pages: ");
-                int pages = sc.nextInt();
-                this.books.add(new ElectronicBook(title, author, genre, ISBN, pages));
-            }
-            case "audio" -> {
-                System.out.print("Enter length of audiobook in minutes: ");
-                double length = sc.nextDouble();
-                this.books.add(new AudioBook(title, author, genre, ISBN, length));
-            }
-            default -> {
-                System.out.println("\nSomething went wrong while trying to add a book to the library.");
-                return;
-            }
+    private void addBook(Book book) {
+        if (book != null) {
+            this.books.add(book);
+            System.out.println("\n" + book.getTitle() + " - " + book.getISBN() +
+                " by " + book.getAuthor() + " has been added to the library!");
         }
-
-        System.out.println("\n" + title + ": " + ISBN + " by " + author + " has been added to the library!");
+        else {
+            System.out.println("An error occurred while adding a new book!");
+        }
     }
 
     // Remove a book from the library
@@ -71,7 +39,7 @@ public class Library {
             // System.out.println(book.getTitle() + " has been removed from the library!");
         }
         catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("An error occurred while removing a book!");
         }
     }
 
@@ -82,7 +50,7 @@ public class Library {
 
     // Display the books in the current page of the library and the current page
     public void displayCurrentPage() {
-        System.out.println("|   ID   ||   TITLE    ||   AUTHOR   ||   GENRE   ||   ISBN   ||   Page " + this.page + "   |");
+        System.out.println("ID ||   TITLE    ||   AUTHOR   ||   GENRE   ||   ISBN   ||   Page " + this.page);
 
         if (this.books.isEmpty()) {
             System.out.println("There are no books in the library!");
@@ -93,8 +61,8 @@ public class Library {
 
         for (int i=this.firstItemIdx; i < lastItem; i++) {
             Book book = this.books.get(i);
-            System.out.println(book.getID() + " | " + book.getTitle() + " | " + book.getAuthor() + " | "
-                    + book.getGenre() + " | " + book.getISBN() + " | ");
+            System.out.println(book.getID() + " |     " + book.getTitle() + "     |     " + book.getAuthor() + "     |     "
+                    + book.getGenre() + "     |     " + book.getISBN() + "     |     ");
         }
     }
 
@@ -126,7 +94,8 @@ public class Library {
 
         switch (input) {
             case "1":
-                this.addBook(sc);
+                Book book = this.getBookDetails(sc);
+                this.addBook(book);
                 break;
             case "2":
                 this.removeBook(sc);
@@ -145,7 +114,106 @@ public class Library {
                 break;
         }
     }
-    
+
+    private Book getBookDetails(Scanner sc) {
+        String title = this.validateBookDetails(sc, "title");
+        String author = this.validateBookDetails(sc, "author");
+        String genre = this.validateBookDetails(sc, "genre");
+        String ISBN = this.validateBookDetails(sc, "ISBN");
+        String type = this.validateBookDetails(sc, "type");
+        int length = Integer.parseInt(this.validateBookDetails(sc, "length"));
+
+        if (type.equalsIgnoreCase("physical")) {
+            return new PhysicalBook(title, author, genre, ISBN, length);
+        }
+        else if (type.equalsIgnoreCase("electronic")) {
+            return new ElectronicBook(title, author, genre, ISBN, length);
+        }
+        else if (type.equalsIgnoreCase("audio")) {
+            return new AudioBook(title, author, genre, ISBN, length);
+        }
+
+        return null;
+    }
+
+    // Handle user input validation
+    private String validateBookDetails(Scanner sc, String inputType) {
+        String TITLE_REGEX = "^[\\w\\s\\-',:.!?()]+$";
+        String AUTHOR_REGEX = "^[a-zA-Z\\s.\\-']+$";
+        String GENRE_REGEX = "^[a-zA-Z\\s.\\-']+$";
+        String ISBN_REGEX = "^(?:\\d{9}[0-9X]|\\d{13})$";
+
+        if (inputType.equalsIgnoreCase("type"))
+            System.out.print("Enter a book type (physical, electronic, audio): ");
+        else if (inputType.equalsIgnoreCase("length"))
+            System.out.print("Enter pages or length of book: ");
+        else
+            System.out.print("Enter " + inputType + ": ");
+
+
+        while (true) {
+            String input = sc.nextLine();
+
+            // Validate title input
+            if (inputType.equalsIgnoreCase("title")) {
+                if (Pattern.matches(TITLE_REGEX, input)) {
+                    return input;
+                }
+            }
+
+            // Validate author input
+            if (inputType.equalsIgnoreCase("author")) {
+                if (Pattern.matches(AUTHOR_REGEX, input)) {
+                    return input;
+                }
+            }
+
+            // Validate genre input
+            if (inputType.equalsIgnoreCase("genre")) {
+                if (Pattern.matches(GENRE_REGEX, input)) { return input; }
+            }
+
+            // Validate genre input
+            if (inputType.equalsIgnoreCase("ISBN")) {
+                if (Pattern.matches(ISBN_REGEX, input)) { return input; }
+            }
+
+            if (inputType.equalsIgnoreCase("type")) {
+                if (input.equalsIgnoreCase("physical") ||
+                    input.equalsIgnoreCase("electronic") ||
+                    input.equalsIgnoreCase("audio")) {
+                    return input;
+                }
+            }
+
+            if (inputType.equalsIgnoreCase("length")) {
+                try {
+                    int length = Integer.parseInt(input);
+                    if (length > 0)
+                        return input;
+                } catch (Exception e) {
+                    // do stuff
+                }
+            }
+
+            System.out.print("Invalid " + inputType + "! Try again: ");
+        }
+    }
+
+    private String getValidBookType(Scanner sc) {
+        System.out.print("Enter a book type (physical, electronic, audio): ");
+        while (true) {
+            String input = sc.nextLine();
+
+            if (input.equalsIgnoreCase("physical") ||
+                input.equalsIgnoreCase("electronic") ||
+                input.equalsIgnoreCase("audio"))
+                return input;
+
+            System.out.print("Invalid book type! Try again: ");
+        }
+    }
+
     public void displayInstructions() {
         System.out.println("\n[1] Add a book to the library");
         System.out.println("[2] Remove a book from the library");
