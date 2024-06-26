@@ -1,4 +1,4 @@
-package com.stratpoint.projects;
+package com.stratpoint.projects.booktypes;
 
 public class ElectronicBook extends Book{
     private String type;

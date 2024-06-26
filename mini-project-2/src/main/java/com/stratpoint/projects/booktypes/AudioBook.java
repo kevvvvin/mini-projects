@@ -1,4 +1,4 @@
-package com.stratpoint.projects;
+package com.stratpoint.projects.booktypes;
 
 public class AudioBook extends Book{
     private String type;
