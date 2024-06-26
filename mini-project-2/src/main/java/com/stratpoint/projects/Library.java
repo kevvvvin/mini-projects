@@ -1,11 +1,14 @@
 package com.stratpoint.projects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Library {
+    Logger logger = LoggerFactory.getLogger(Library.class);
     private final List<Book> books;
     private int page;
     private int firstItemIdx = 0;
