@@ -5,6 +5,9 @@ package com.stratpoint.projects.library.book_types;
  * It provides a common interface for all types of books.
  */
 public abstract class Book {
+    private static int ID = 0;
+
+    private final int id;
     /**
      * The title of the book.
      */
@@ -34,11 +37,20 @@ public abstract class Book {
      * @param ISBN The ISBN of the book.
      */
     public Book(String title, String author, String genre, String ISBN) {
+        this.id = ID;
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.ISBN = ISBN;
+        ID++;
     }
+
+    /**
+     * Gets the ID of the book.
+     *
+     * @return The ID of the book.
+     */
+    public int getID() { return this.id; }
 
     /**
      * Gets the title of the book.

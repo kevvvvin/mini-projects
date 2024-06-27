@@ -69,11 +69,13 @@ public class Main {
                 break;
             case "2":
                 // Remove a book from the library
-                library.removeBook(sc);
+                int id = library.getBookIdFromUser(sc);
+                library.removeBook(id);
                 break;
             case "3":
                 // Search for a book in the library
-                library.searchBook(sc);
+                String query = library.getSearchQueryFromUser(sc);
+                library.searchBook(query);
                 break;
             case "d", "D":
                 // Go to the next page

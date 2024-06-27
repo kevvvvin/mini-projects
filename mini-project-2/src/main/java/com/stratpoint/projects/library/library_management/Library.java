@@ -79,82 +79,53 @@ public class Library {
 
     /**
      * This method removes a book from the library based on the provided book ID.
-     *
-     * @param sc Scanner object to read user input.
      */
-    public void removeBook(Scanner sc) {
+    public void removeBook(int id) {
         try {
-            logger.info("Removing a book: getting book ID to remove from user");
-            // Prompt user to enter the book ID to remove
-            System.out.print("Enter a book ID to remove: ");
-
-            // Read the book ID from user input
-            int idx = sc.nextInt();
-
-            Book book = this.books.get(idx-1);
+            Book book = this.books.get(id-1);
 
             // Remove the book from the library at the specified index
-            this.books.remove(idx-1);
+            this.books.remove(id-1);
 
-            sc.nextLine();
             logger.info("{} - {} has been removed from the library", book.getTitle(), book.getISBN());
         }
-        catch (InputMismatchException | IndexOutOfBoundsException e) {
+        catch (IndexOutOfBoundsException e) {
             // Print an error message if an exception occurs during the removal process
             logger.error("An error occurred while removing a book: {}", e.toString());
-            sc.nextLine();
         }
     }
 
     /**
      * This method allows the user to search for books in the library based on a search query.
-     *
-     * @param sc Scanner object to read user input.
      */
-    public void searchBook(Scanner sc) {
-        logger.info("Searching for a book in the library");
-        while (true) {
-            // Prompt user to enter the search query
-            System.out.print("Enter search query: ");
-            String query = sc.nextLine();
+    public int searchBook(String query) {
+        logger.info("Searching from query: {}", query);
+        String gapLeft = "| ";
+        String gapRight = " ";
+        int foundBooks = 0;
 
-            String gapLeft = "| ";
-            String gapRight = " ";
-            int foundBooks = 0;
+        System.out.println("\nSEARCH RESULTS:");
+        for (Book book : this.books) {
+            // Check if the book's title, author, genre, or ISBN contains the search query
+            if (book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                    book.getAuthor().toLowerCase().contains(query.toLowerCase()) ||
+                    book.getGenre().toLowerCase().contains(query.toLowerCase()) ||
+                    book.getISBN().equals(query)) {
+                // Display the book details if it matches the search query
+                System.out.print(gapLeft + book.getTitle() + gapRight);
+                System.out.print(gapLeft + book.getAuthor() + gapRight);
+                System.out.print(gapLeft + book.getGenre() + gapRight);
+                System.out.print(gapLeft + book.getISBN() + gapRight);
+                System.out.print(gapLeft + book.getType() + gapRight);
 
-            System.out.print("SEARCH RESULTS: \n");
-            for (Book book : this.books) {
-                // Check if the book's title, author, genre, or ISBN contains the search query
-                if (book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                        book.getAuthor().toLowerCase().contains(query.toLowerCase()) ||
-                        book.getGenre().toLowerCase().contains(query.toLowerCase()) ||
-                        book.getISBN().equals(query)) {
-                    // Display the book details if it matches the search query
-                    System.out.print(gapLeft + book.getTitle() + gapRight);
-                    System.out.print(gapLeft + book.getAuthor() + gapRight);
-                    System.out.print(gapLeft + book.getGenre() + gapRight);
-                    System.out.print(gapLeft + book.getISBN() + gapRight);
-                    System.out.print(gapLeft + book.getType() + gapRight);
+                String length = book.getPagesOrLength() + (book.getType().equalsIgnoreCase("Audio") ? " minutes" : " pages");
+                System.out.print(gapLeft + length + gapRight + "\n");
 
-                    String length = book.getPagesOrLength() + (book.getType().equalsIgnoreCase("Audio") ? " minutes" : " pages");
-                    System.out.print(gapLeft + length + gapRight + "\n");
-
-                    foundBooks++;
-                }
+                foundBooks++;
             }
-            logger.info("{} books found", foundBooks);
-
-            // Ask the user if they want to continue searching
-            System.out.print("\nContinue searching? (y / Y): ");
-            String cont = sc.nextLine();
-
-            // Break out of the loop if the user does not want to continue searching
-            if (!cont.equalsIgnoreCase("y")) {
-                logger.info("No longer searching for books");
-                break;
-            }
-            logger.info("Searching for another book");
         }
+        logger.info("{} books found", foundBooks);
+        return foundBooks;
     }
 
     /**
@@ -196,6 +167,30 @@ public class Library {
         return book;
     }
 
+    public int getBookIdFromUser(Scanner sc) {
+        logger.info("Removing a book: getting book ID to remove from user");
+        System.out.print("Enter a book ID to remove: ");
+
+        try {
+            int id = sc.nextInt();
+            sc.nextLine();
+            return id;
+        }
+        catch (InputMismatchException e) {
+            // Print an error message if an exception occurs during the removal process
+            sc.nextLine();
+            logger.error("Book ID must be a valid integer: {}", e.toString());
+        }
+
+        return -1;
+    }
+
+    public String getSearchQueryFromUser(Scanner sc) {
+        logger.info("Searching for a book: getting query from user");
+        System.out.print("Enter search query: ");
+        return sc.nextLine();
+    }
+
     /**
      * This method handles user input validation for book details.
      *
@@ -204,7 +199,7 @@ public class Library {
      * @return The validated user input.
      * @throws IllegalArgumentException If the inputType is not recognized.
      */
-    private String validateBookDetails(Scanner sc, String inputType) {
+    protected String validateBookDetails(Scanner sc, String inputType) {
         // Define regex patterns for validating different input types
         String TITLE_REGEX = "^[\\p{L}0-9\\s',.:;&()-]+$";
         String AUTHOR_REGEX = "^[a-zA-Z][a-zA-Z\\s\\-.',]*$";
@@ -325,5 +320,17 @@ public class Library {
     public void toggle() {
         logger.info("Exiting the program");
         this.isOpen = !this.isOpen;
+    }
+
+
+    /**
+     * This method checks if a given book is present in the library's collection of books.
+     *
+     * @param book The book to check for.
+     * @return True if the book is present in the library, false otherwise.
+     */
+    public boolean containsBook(Book book) {
+        // Check if the given book is present in the library's collection of books.
+        return this.books.contains(book);
     }
 }
