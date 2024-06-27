@@ -5,8 +5,16 @@ package com.stratpoint.projects.library.book_types;
  * It provides a common interface for all types of books.
  */
 public abstract class Book {
+    /**
+     * The ID of the book.
+     * This is a static field that keeps track of the current ID for all books.
+     * It is incremented for each new book created.
+     */
     private static int ID = 0;
 
+    /**
+     * The unique identifier for this book.
+     */
     private final int id;
     /**
      * The title of the book.

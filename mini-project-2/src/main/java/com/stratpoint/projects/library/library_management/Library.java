@@ -79,17 +79,21 @@ public class Library {
 
     /**
      * This method removes a book from the library based on the provided book ID.
+     *
+     * @param id The ID of the book to be removed. The ID is 1-indexed, so the first book has an ID of 1.
+     * @throws IndexOutOfBoundsException If the provided ID is out of range of the library's book list.
      */
     public void removeBook(int id) {
         try {
+            // Get the book object at the specified index
             Book book = this.books.get(id-1);
 
             // Remove the book from the library at the specified index
             this.books.remove(id-1);
 
+            // Log a message indicating that the book has been removed
             logger.info("{} - {} has been removed from the library", book.getTitle(), book.getISBN());
-        }
-        catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException e) {
             // Print an error message if an exception occurs during the removal process
             logger.error("An error occurred while removing a book: {}", e.toString());
         }
