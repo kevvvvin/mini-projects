@@ -1,4 +1,4 @@
-package com.stratpoint.projects.book_types;
+package com.stratpoint.projects.library.book_types;
 
 /**
  * Represents an electronic book.

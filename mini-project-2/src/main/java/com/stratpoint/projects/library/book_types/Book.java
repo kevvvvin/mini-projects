@@ -1,4 +1,4 @@
-package com.stratpoint.projects.book_types;
+package com.stratpoint.projects.library.book_types;
 
 /**
  * This abstract class represents a Book with properties like title, author, genre, and ISBN.

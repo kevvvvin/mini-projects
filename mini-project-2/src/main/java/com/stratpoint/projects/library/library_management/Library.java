@@ -1,9 +1,9 @@
-package com.stratpoint.projects.library_management;
+package com.stratpoint.projects.library.library_management;
 
-import com.stratpoint.projects.book_types.AudioBook;
-import com.stratpoint.projects.book_types.Book;
-import com.stratpoint.projects.book_types.ElectronicBook;
-import com.stratpoint.projects.book_types.PhysicalBook;
+import com.stratpoint.projects.library.book_types.AudioBook;
+import com.stratpoint.projects.library.book_types.Book;
+import com.stratpoint.projects.library.book_types.ElectronicBook;
+import com.stratpoint.projects.library.book_types.PhysicalBook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,22 +21,12 @@ public class Library {
     /**
      * Logger instance for logging purposes.
      */
-    Logger logger = LoggerFactory.getLogger(Library.class);
+    private final Logger logger = LoggerFactory.getLogger(Library.class);
 
     /**
      * List of books in the library.
      */
     private final List<Book> books;
-
-    /**
-     * Current page number.
-     */
-    private int page;
-
-    /**
-     * Index of the first item on the current page.
-     */
-    private int firstItemIdx = 0;
 
     /**
      * Flag indicating if the library is currently open.
@@ -45,23 +35,30 @@ public class Library {
 
     /**
      * Default constructor for the Library class.
-     * Initializes the books list, sets the initial page number to 1,
-     * adds dummy data to the books list, and sets the library to open.
+     * Initializes the books list, and sets the library to open,
+     * adds dummy data to the books list.
      */
     public Library() {
         this.books = new ArrayList<>();
-        this.page = 1;
         this.isOpen = true;
         this.addDummyData();
     }
 
+    /**
+     * Retrieves the list of books in the library.
+     *
+     * @return The list of books in the library.
+     */
+    public List<Book> getBooks() {
+        return this.books;
+    }
 
     /**
      * Adds a new book to the library if it is not already present.
      *
      * @param  newBook  the book to be added to the library
      */
-    private void addBook(Book newBook) {
+    public void addBook(Book newBook) {
         if (newBook != null) {
             // Check if book is in the library
             for (Book book: this.books) {
@@ -85,8 +82,9 @@ public class Library {
      *
      * @param sc Scanner object to read user input.
      */
-    private void removeBook(Scanner sc) {
+    public void removeBook(Scanner sc) {
         try {
+            logger.info("Removing a book: getting book ID to remove from user");
             // Prompt user to enter the book ID to remove
             System.out.print("Enter a book ID to remove: ");
 
@@ -113,7 +111,8 @@ public class Library {
      *
      * @param sc Scanner object to read user input.
      */
-    private void searchBook(Scanner sc) {
+    public void searchBook(Scanner sc) {
+        logger.info("Searching for a book in the library");
         while (true) {
             // Prompt user to enter the search query
             System.out.print("Enter search query: ");
@@ -123,9 +122,7 @@ public class Library {
             String gapRight = " ";
             int foundBooks = 0;
 
-            this.displayPageHeader();
-            System.out.print("\n");
-
+            System.out.print("SEARCH RESULTS: \n");
             for (Book book : this.books) {
                 // Check if the book's title, author, genre, or ISBN contains the search query
                 if (book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
@@ -161,136 +158,13 @@ public class Library {
     }
 
     /**
-     * Displays the books in the current page of the library and the current page number.
-     * The books are displayed in a formatted table with columns for ID, Title, Author, Genre, and ISBN.
-     */
-    public void displayCurrentPage() {
-        // Define the spacing between columns
-        String gapLeft = "| ";
-        String gapRight = " ";
-
-        // Print the header row for the table
-        this.displayPageHeader();
-        System.out.print(gapLeft + "Page " + this.page + gapRight + "\n");
-
-        // Check if there are any books in the library
-        if (this.books.isEmpty()) {
-            logger.warn("There are no books in the library");
-            return;
-        }
-
-        // Calculate the last book to display on the current page
-        int lastItem = Math.min(this.page * 5, this.books.size());
-
-        // Loop through the books on the current page and display them
-        for (int i=this.firstItemIdx; i < lastItem; i++) {
-            Book book = this.books.get(i);
-            System.out.print(i+1 + gapRight);
-            System.out.print(gapLeft + book.getTitle() + gapRight);
-            System.out.print(gapLeft + book.getAuthor() + gapRight);
-            System.out.print(gapLeft + book.getGenre() + gapRight);
-            System.out.print(gapLeft + book.getISBN() + gapRight);
-            System.out.print(gapLeft + book.getType() + gapRight);
-
-            String length = book.getPagesOrLength() + (book.getType().equalsIgnoreCase("Audio") ? " minutes" : " pages");
-            System.out.print(gapLeft + length + gapRight + "\n");
-        }
-    }
-
-
-    /**
-     * Increments the page number and updates the index of the first item on the page if the current page is not the last page.
-     * If the current page is already the last page, it logs a warning message.
-     */
-    private void nextPage() {
-        // Check if the current page is the last page
-        if (this.firstItemIdx + 5 >= this.books.size()) {
-            // Log a warning message if the current page is already the last page
-            logger.warn("Failed to change the page. Already at the last page");
-        } else {
-            // Increment the page number
-            this.page += 1;
-
-            // Update the index of the first item on the page
-            this.firstItemIdx += 5;
-
-            // Log the page change event
-            this.logPageChange();
-        }
-    }
-
-
-    /**
-     * Decrements the page number and updates the index of the first item on the page if the current page is not the first page.
-     * If the current page is already the first page, it prints a message and does nothing.
-     */
-    private void prevPage() {
-        // Check if the current page is the first page
-        if (this.page == 1) {
-            // Log a warning message if the current page is already the first page
-            logger.warn("Failed to change the page. Already at the first page");
-            return;
-        }
-
-        // Decrement the page number
-        this.page -= 1;
-
-        // Update the index of the first item on the page
-        this.firstItemIdx -= 5;
-
-        this.logPageChange();
-    }
-
-    /**
-     * Handles the user inputs for library commands.
-     *
-     * @param sc Scanner object to read user input
-     */
-    public void handleLibraryCommands(Scanner sc) {
-        // Get user input
-        String input = sc.nextLine();
-
-        // Switch statement to handle different input cases
-        switch (input) {
-            case "1":
-                // Add a new book to the library
-                logger.info("Adding a new book to the library");
-                Book book = this.getBookDetails(sc);
-                this.addBook(book);
-                break;
-            case "2":
-                // Remove a book from the library
-                logger.info("Removing a book from the library");
-                this.removeBook(sc);
-                break;
-            case "3":
-                // Search for a book in the library
-                logger.info("Searching for a book in the library");
-                this.searchBook(sc);
-                break;
-            case "d", "D":
-                // Go to the next page
-                this.nextPage();
-                break;
-            case "a", "A":
-                // Go to the previous page
-                this.prevPage();
-                break;
-            case "q", "Q":
-                // Exit the program
-                logger.info("Exiting the program");
-                this.isOpen = false;
-                break;
-        }
-    }
-
-    /**
      * This method prompts the user for book details and creates a new Book object based on the user's input.
      *
      * @param sc Scanner object to read user input.
      * @return A new Book object with the user's input details, or null if the user input is invalid.
      */
-    private Book getBookDetails(Scanner sc) {
+    public Book getBookDetailsFromUser(Scanner sc) {
+        logger.info("Adding a book: getting book details from user");
         // Prompt the user for book details and validate the input
         String title = this.validateBookDetails(sc, "title");
         String author = this.validateBookDetails(sc, "author");
@@ -338,7 +212,11 @@ public class Library {
         String ISBN_REGEX = "^(?:\\d{9}[0-9X]|\\d{13})$";
 
         // Prompt user for input based on inputType
-        System.out.print("Enter " + inputType + ": ");
+        System.out.print("Enter " + inputType);
+        if (inputType.equalsIgnoreCase("type"))
+            System.out.print(" (physical, electronic, audio)");
+
+        System.out.print(": ");
 
         while (true) {
             String input = sc.nextLine();
@@ -414,49 +292,6 @@ public class Library {
     }
 
     /**
-     * This method displays the instructions for the library.
-     * It prints a list of commands that the user can use to interact with the library.
-     */
-    public void displayInstructions() {
-        // Print the instructions for adding a book to the library
-        System.out.println("\n[1] Add a book to the library");
-
-        // Print the instructions for removing a book from the library
-        System.out.println("[2] Remove a book from the library");
-
-        // Print the instructions for searching for a book within the library
-        System.out.println("[3] Search for a book within the library");
-
-        // Print the instructions for going to the next page of the library
-        System.out.println("[d] Go to next page of library");
-
-        // Print the instructions for going to the previous page of the library
-        System.out.println("[a] Go to previous page of library");
-
-        // Print the instructions for exiting the program
-        System.out.println("[q] Exit program");
-    }
-
-    /**
-     * This method prints the header row for the table.
-     * It includes the column names for ID, Title, Author, Genre, ISBN, Type, and Pages or Length in Minutes.
-     */
-    private void displayPageHeader() {
-        // Define the spacing between columns
-        String gapLeft = "| ";
-        String gapRight = " ";
-
-        // Print the header row for the table
-        System.out.print("\nID ");
-        System.out.print(gapLeft + "TITLE" + gapRight);
-        System.out.print(gapLeft + "AUTHOR" + gapRight);
-        System.out.print(gapLeft + "GENRE" + gapRight);
-        System.out.print(gapLeft + "ISBN" + gapRight);
-        System.out.print(gapLeft + "TYPE" + gapRight);
-        System.out.print(gapLeft + "PAGES OR LENGTH IN MINUTES" + gapRight);
-    }
-
-    /**
      * Adds dummy data to the library.
      * This method adds a set of predefined audio, physical, and electronic books to the library.
      */
@@ -484,11 +319,11 @@ public class Library {
     }
 
     /**
-     * Logs the page change event.
-     * This method logs the page number to the logger when the user navigates to a new page.
+     * Toggles the state of the library between open and closed.
+     * If the library is currently open, it will be closed.
      */
-    private void logPageChange() {
-        // Use the logger to log the page change event
-        logger.info("Moved to page {}.", this.page);
+    public void toggle() {
+        logger.info("Exiting the program");
+        this.isOpen = !this.isOpen;
     }
 }
