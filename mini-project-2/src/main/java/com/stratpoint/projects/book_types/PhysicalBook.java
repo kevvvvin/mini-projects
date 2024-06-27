@@ -1,18 +1,18 @@
-package com.stratpoint.projects.booktypes;
+package com.stratpoint.projects.book_types;
 
 /**
  * Represents a physical book.
  */
 public class PhysicalBook extends Book {
     /**
-     * The type of book.
+     * The type of the book (e.g., Physical).
      */
-    private String type;
+    private static final String type = "Physical";
 
     /**
      * The number of pages in the book.
      */
-    private int pages;
+    private final int pages;
 
     /**
      * Constructs a new PhysicalBook object.
@@ -25,7 +25,6 @@ public class PhysicalBook extends Book {
      */
     public PhysicalBook(String title, String author, String genre, String ISBN, int pages) {
         super(title, author, genre, ISBN);
-        this.type = "Physical";
         this.pages = pages;
     }
 
@@ -34,8 +33,9 @@ public class PhysicalBook extends Book {
      *
      * @return The type of the book.
      */
+    @Override
     public String getType() {
-        return this.type;
+        return type;
     }
 
     /**
@@ -43,7 +43,8 @@ public class PhysicalBook extends Book {
      *
      * @return The number of pages in the book.
      */
-    public int getPages() {
+    @Override
+    public int getPagesOrLength() {
         return this.pages;
     }
 }

@@ -1,18 +1,18 @@
-package com.stratpoint.projects.booktypes;
+package com.stratpoint.projects.book_types;
 
 /**
  * Represents an audiobook.
  */
-public class AudioBook extends Book{
+public class AudioBook extends Book {
     /**
      * The type of the book (e.g., Audio).
      */
-    private String type;
+    private static final String TYPE = "Audio";
 
     /**
      * The length of the audiobook in minutes.
      */
-    private int lengthInMinutes;
+    private final int lengthInMinutes;
 
     /**
      * Constructor for creating an AudioBook object.
@@ -20,12 +20,11 @@ public class AudioBook extends Book{
      * @param title The title of the audiobook.
      * @param author The author of the audiobook.
      * @param genre The genre of the audiobook.
-     * @param ISBN The ISBN of the audiobook.
+     * @param isbn The ISBN of the audiobook.
      * @param length The length of the audiobook in minutes.
      */
-    public AudioBook(String title, String author, String genre, String ISBN, int length ) {
-        super(title, author, genre, ISBN);
-        this.type = "Audio";
+    public AudioBook(String title, String author, String genre, String isbn, int length) {
+        super(title, author, genre, isbn);
         this.lengthInMinutes = length;
     }
 
@@ -34,8 +33,9 @@ public class AudioBook extends Book{
      *
      * @return The type of the audiobook.
      */
+    @Override
     public String getType() {
-        return this.type;
+        return TYPE;
     }
 
     /**
@@ -43,7 +43,8 @@ public class AudioBook extends Book{
      *
      * @return The length of the audiobook in minutes.
      */
-    public int getLength() {
+    @Override
+    public int getPagesOrLength() {
         return this.lengthInMinutes;
     }
 }

@@ -1,9 +1,9 @@
-package com.stratpoint.projects;
+package com.stratpoint.projects.library_management;
 
-import com.stratpoint.projects.booktypes.AudioBook;
-import com.stratpoint.projects.booktypes.Book;
-import com.stratpoint.projects.booktypes.ElectronicBook;
-import com.stratpoint.projects.booktypes.PhysicalBook;
+import com.stratpoint.projects.book_types.AudioBook;
+import com.stratpoint.projects.book_types.Book;
+import com.stratpoint.projects.book_types.ElectronicBook;
+import com.stratpoint.projects.book_types.PhysicalBook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -137,22 +137,10 @@ public class Library {
                     System.out.print(gapLeft + book.getAuthor() + gapRight);
                     System.out.print(gapLeft + book.getGenre() + gapRight);
                     System.out.print(gapLeft + book.getISBN() + gapRight);
+                    System.out.print(gapLeft + book.getType() + gapRight);
 
-                    if (book instanceof AudioBook) {
-                        AudioBook audioBook = (AudioBook) book;
-                        System.out.print(gapLeft + audioBook.getType() + gapRight);
-                        System.out.print(gapLeft + audioBook.getLength() + " minutes" + gapRight + "\n");
-                    }
-                    else if (book instanceof ElectronicBook) {
-                        ElectronicBook electronicBook = (ElectronicBook) book;
-                        System.out.print(gapLeft + electronicBook.getType() + gapRight);
-                        System.out.print(gapLeft + electronicBook.getPages() + " pages" + gapRight + "\n");
-                    }
-                    else if (book instanceof PhysicalBook) {
-                        PhysicalBook physicalBook = (PhysicalBook) book;
-                        System.out.print(gapLeft + physicalBook.getType() + gapRight);
-                        System.out.print(gapLeft + physicalBook.getPages() + " pages" + gapRight + "\n");
-                    }
+                    String length = book.getPagesOrLength() + (book.getType().equalsIgnoreCase("Audio") ? " minutes" : " pages");
+                    System.out.print(gapLeft + length + gapRight + "\n");
 
                     foundBooks++;
                 }
@@ -202,22 +190,10 @@ public class Library {
             System.out.print(gapLeft + book.getAuthor() + gapRight);
             System.out.print(gapLeft + book.getGenre() + gapRight);
             System.out.print(gapLeft + book.getISBN() + gapRight);
+            System.out.print(gapLeft + book.getType() + gapRight);
 
-            if (book instanceof AudioBook) {
-                AudioBook audioBook = (AudioBook) book;
-                System.out.print(gapLeft + audioBook.getType() + gapRight);
-                System.out.print(gapLeft + audioBook.getLength() + " minutes" + gapRight + "\n");
-            }
-            else if (book instanceof ElectronicBook) {
-                ElectronicBook electronicBook = (ElectronicBook) book;
-                System.out.print(gapLeft + electronicBook.getType() + gapRight);
-                System.out.print(gapLeft + electronicBook.getPages() + " pages" + gapRight + "\n");
-            }
-            else if (book instanceof PhysicalBook) {
-                PhysicalBook physicalBook = (PhysicalBook) book;
-                System.out.print(gapLeft + physicalBook.getType() + gapRight);
-                System.out.print(gapLeft + physicalBook.getPages() + " pages" + gapRight + "\n");
-            }
+            String length = book.getPagesOrLength() + (book.getType().equalsIgnoreCase("Audio") ? " minutes" : " pages");
+            System.out.print(gapLeft + length + gapRight + "\n");
         }
     }
 

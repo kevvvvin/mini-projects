@@ -1,5 +1,7 @@
 package com.stratpoint.projects;
 
+import com.stratpoint.projects.library_management.Library;
+
 import java.util.Scanner;
 
 /**

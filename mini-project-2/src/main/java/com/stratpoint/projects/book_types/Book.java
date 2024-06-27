@@ -1,28 +1,29 @@
-package com.stratpoint.projects.booktypes;
+package com.stratpoint.projects.book_types;
 
 /**
- * This class represents a Book with properties like title, author, genre, and ISBN.
+ * This abstract class represents a Book with properties like title, author, genre, and ISBN.
+ * It provides a common interface for all types of books.
  */
-public class Book {
+public abstract class Book {
     /**
      * The title of the book.
      */
-    private String title;
+    private final String title;
 
     /**
      * The author of the book.
      */
-    private String author;
+    private final String author;
 
     /**
      * The genre of the book.
      */
-    private String genre;
+    private final String genre;
 
     /**
      * The ISBN of the book.
      */
-    private String ISBN;
+    private final String ISBN;
 
     /**
      * Constructs a new Book with the given title, author, genre, and ISBN.
@@ -74,4 +75,18 @@ public class Book {
     public String getISBN() {
         return this.ISBN;
     }
+
+    /**
+     * Gets the type of the book.
+     *
+     * @return The type of the book.
+     */
+    public abstract String getType();
+
+    /**
+     * Gets the number of pages or length of the book, depending on the type of book.
+     *
+     * @return The number of pages or length of the book.
+     */
+    public abstract int getPagesOrLength();
 }
