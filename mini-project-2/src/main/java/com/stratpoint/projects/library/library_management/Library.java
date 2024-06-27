@@ -96,35 +96,51 @@ public class Library {
     }
 
     /**
-     * This method allows the user to search for books in the library based on a search query.
+     * Searches for books in the library based on the provided query.
+     * It checks if the book's title, author, genre, or ISBN contains the search query.
+     * Displays the details of the books that match the search query.
+     *
+     * @param query The search query to look for in the books.
+     * @return The number of books found that match the search query.
      */
     public int searchBook(String query) {
+        // Log the search query
         logger.info("Searching from query: {}", query);
+
+        // Initialize variables for formatting
         String gapLeft = "| ";
         String gapRight = " ";
         int foundBooks = 0;
 
+        // Display search results
         System.out.println("\nSEARCH RESULTS:");
+
+        // Iterate through the books in the library
         for (Book book : this.books) {
-            // Check if the book's title, author, genre, or ISBN contains the search query
+            // Check if the book matches the search query
             if (book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
                     book.getAuthor().toLowerCase().contains(query.toLowerCase()) ||
                     book.getGenre().toLowerCase().contains(query.toLowerCase()) ||
                     book.getISBN().equals(query)) {
-                // Display the book details if it matches the search query
+                // Display book details
                 System.out.print(gapLeft + book.getTitle() + gapRight);
                 System.out.print(gapLeft + book.getAuthor() + gapRight);
                 System.out.print(gapLeft + book.getGenre() + gapRight);
                 System.out.print(gapLeft + book.getISBN() + gapRight);
                 System.out.print(gapLeft + book.getType() + gapRight);
 
+                // Format the length of the book
                 String length = book.getPagesOrLength() + (book.getType().equalsIgnoreCase("Audio") ? " minutes" : " pages");
                 System.out.print(gapLeft + length + gapRight + "\n");
 
+                // Increment the count of found books
                 foundBooks++;
             }
         }
+
+        // Log the number of books found
         logger.info("{} books found", foundBooks);
+
         return foundBooks;
     }
 
@@ -167,27 +183,47 @@ public class Library {
         return book;
     }
 
+    /**
+     * This method prompts the user to input a book ID for removal.
+     *
+     * @param sc The Scanner object used to read user input.
+     * @return The book ID entered by the user or -1 if an error occurs.
+     */
     public int getBookIdFromUser(Scanner sc) {
+        // Log information about the process of removing a book
         logger.info("Removing a book: getting book ID to remove from user");
+
+        // Prompt the user to enter a book ID to remove
         System.out.print("Enter a book ID to remove: ");
 
         try {
+            // Attempt to read an integer from user input
             int id = sc.nextInt();
-            sc.nextLine();
+            sc.nextLine(); // Consume the newline character after reading the integer
             return id;
-        }
-        catch (InputMismatchException e) {
-            // Print an error message if an exception occurs during the removal process
-            sc.nextLine();
+        } catch (InputMismatchException e) {
+            // Handle the case where a non-integer input is provided
+            sc.nextLine(); // Clear the input buffer
             logger.error("Book ID must be a valid integer: {}", e.toString());
         }
 
-        return -1;
+        return -1; // Return -1 if an error occurs during the input process
     }
 
+    /**
+     * This method prompts the user to enter a search query for books.
+     *
+     * @param sc The Scanner object used to read user input.
+     * @return The search query entered by the user.
+     */
     public String getSearchQueryFromUser(Scanner sc) {
+        // Log information about the process of searching for a book
         logger.info("Searching for a book: getting query from user");
+
+        // Prompt the user to enter a search query
         System.out.print("Enter search query: ");
+
+        // Read the search query from the user
         return sc.nextLine();
     }
 
