@@ -6,17 +6,6 @@ package com.stratpoint.projects.library.book_types;
  */
 public abstract class Book {
     /**
-     * The ID of the book.
-     * This is a static field that keeps track of the current ID for all books.
-     * It is incremented for each new book created.
-     */
-    private static int ID = 0;
-
-    /**
-     * The unique identifier for this book.
-     */
-    private final int id;
-    /**
      * The title of the book.
      */
     private final String title;
@@ -45,20 +34,11 @@ public abstract class Book {
      * @param ISBN The ISBN of the book.
      */
     public Book(String title, String author, String genre, String ISBN) {
-        this.id = ID;
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.ISBN = ISBN;
-        ID++;
     }
-
-    /**
-     * Gets the ID of the book.
-     *
-     * @return The ID of the book.
-     */
-    public int getID() { return this.id; }
 
     /**
      * Gets the title of the book.
