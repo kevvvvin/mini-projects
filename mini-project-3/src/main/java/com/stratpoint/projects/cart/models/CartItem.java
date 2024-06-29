@@ -22,10 +22,6 @@ public class CartItem {
         return this.itemQuantity;
     }
 
-    public void setItemQuantity(int newQuantity) {
-        this.itemQuantity = newQuantity;
-    }
-
     public void decrementQuantity() {
         if (this.itemQuantity > 0) {
             this.itemQuantity--;

@@ -7,10 +7,10 @@ public class Product {
     private final Logger logger = LoggerFactory.getLogger(Product.class);
     private static int ID = 1;
 
-    private int id;
-    private String productName;
-    private double productPrice;
-    private String productDescription;
+    private final int id;
+    private final String productName;
+    private final double productPrice;
+    private final String productDescription;
     private int productStock;
 
     public Product(String productName, double productPrice, String productDescription, int productStock) {
@@ -40,19 +40,6 @@ public class Product {
 
     public int getProductStock() {
         return this.productStock;
-    }
-
-    public void incrementStock() {
-        this.productStock++;
-    }
-
-    public void decrementStock() {
-        if (this.productStock > 0) {
-            this.productStock--;
-        }
-        else {
-            logger.warn("Cannot decrement product stock quantity below 0.");
-        }
     }
 
     public void reduceStock(int quantity) {
