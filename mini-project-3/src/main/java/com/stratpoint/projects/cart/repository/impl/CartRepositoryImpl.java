@@ -12,13 +12,13 @@ public class CartRepositoryImpl implements CartRepository {
     }
 
     @Override
-    public void addItem(Product product) {
-        cart.addItem(product);
+    public boolean addItem(Product product) {
+        return cart.addItem(product);
     }
 
     @Override
-    public void removeItem(Product product) {
-        cart.removeItem(product);
+    public boolean removeItem(Product product) {
+        return cart.removeItem(product);
     }
 
     @Override

@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 public class Cart{
 
     private final Logger logger = LoggerFactory.getLogger(Cart.class);
-    private List<CartItem> cartItems;
+    private final List<CartItem> cartItems;
 
     public Cart() {
         this.cartItems = new ArrayList<>();
@@ -30,7 +30,7 @@ public class Cart{
                 existingItem.incrementQuantity();
             }
             else {
-                logger.warn("Cannot add more than the product's stock quantity to cart");
+                logger.warn("Cannot add more than {}'s stock quantity to cart", product.getProductName());
                 return false;
             }
         }
@@ -48,13 +48,12 @@ public class Cart{
             if (existingItem.getItemQuantity() > 1) {
                 existingItem.decrementQuantity();
                 logger.info("Successfully decremented item quantity of {}", product.getProductName());
-                return true;
             }
             else {
                 cartItems.remove(existingItem);
                 logger.info("Removed product {} from the cart", product.getProductName());
-                return true;
             }
+            return true;
         }
         logger.warn("Could not remove product {} from cart", product.getProductName());
         return false;

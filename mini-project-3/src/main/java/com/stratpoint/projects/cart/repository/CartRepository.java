@@ -5,7 +5,7 @@ import com.stratpoint.projects.cart.models.Product;
 
 public interface CartRepository {
 
-    void addItem(Product product);
-    void removeItem(Product product);
+    boolean addItem(Product product);
+    boolean removeItem(Product product);
     Cart getCart();
 }

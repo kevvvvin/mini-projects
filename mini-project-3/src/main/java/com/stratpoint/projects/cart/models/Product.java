@@ -54,4 +54,9 @@ public class Product {
             logger.warn("Cannot decrement product stock quantity below 0.");
         }
     }
+
+    public void reduceStock(int quantity) {
+        this.productStock -= quantity;
+        logger.info("Reduced {} stock to quantity {}", this.productName, quantity);
+    }
 }
