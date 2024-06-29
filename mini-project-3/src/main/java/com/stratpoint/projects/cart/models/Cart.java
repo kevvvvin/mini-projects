@@ -19,12 +19,13 @@ public class Cart{
     }
 
     public boolean addItem(Product product) {
-        if (product.getProductStock() <= 0) {
-            logger.warn("Cannot add a sold out product to cart");
+        if (product.getProductStock() < 1) {
+            logger.warn("Failed to add product: {} is sold out", product.getProductName());
             return false;
         }
 
         CartItem existingItem = getCartItem(product.getId());
+
         if (existingItem != null) {
             if (existingItem.getProduct().getProductStock() - existingItem.getItemQuantity() > 0) {
                 existingItem.incrementQuantity();
@@ -38,7 +39,7 @@ public class Cart{
             cartItems.add(new CartItem(product, 1));
         }
 
-        logger.info("Successfully added product {} to cart", product.getProductName());
+        logger.info("Successfully added {} to cart", product.getProductName());
         return true;
     }
 
@@ -55,7 +56,7 @@ public class Cart{
             }
             return true;
         }
-        logger.warn("Could not remove product {} from cart", product.getProductName());
+        logger.warn("Could not remove {} from cart", product.getProductName());
         return false;
     }
 
@@ -76,7 +77,7 @@ public class Cart{
 
     public double getTotalPrice() {
         return cartItems.stream()
-                .mapToDouble((item) -> item.getProduct().getProductPrice())
+                .mapToDouble((item) -> item.getProduct().getProductPrice() * item.getItemQuantity())
                 .sum();
     }
 

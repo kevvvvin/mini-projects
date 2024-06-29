@@ -57,6 +57,15 @@ public class Product {
 
     public void reduceStock(int quantity) {
         this.productStock -= quantity;
-        logger.info("Reduced {} stock to quantity {}", this.productName, quantity);
+        logger.info("Reduced {} stock to quantity {}", this.productName, this.productStock);
+    }
+
+    @Override
+    public String toString() {
+        return "id=" + id +
+                ", productName='" + productName +
+                ", productPrice=" + productPrice +
+                ", productDescription='" + productDescription +
+                ", productStock=" + productStock;
     }
 }

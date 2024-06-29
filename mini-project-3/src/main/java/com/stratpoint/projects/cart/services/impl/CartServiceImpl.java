@@ -22,10 +22,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public boolean addToCart(Product product) {
-        if (product.getProductStock() > 0) {
-            return this.cartRepository.addItem(product);
-        }
-        return false;
+        return this.cartRepository.addItem(product);
     }
 
     @Override
@@ -35,7 +32,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart getCart() {
-        return cartRepository.getCart();
+        return this.cartRepository.getCart();
     }
 
     @Override
@@ -48,7 +45,7 @@ public class CartServiceImpl implements CartService {
         }
 
         for (CartItem item: cart.getCartItems()) {
-            Product product = productService.getProductById(item.getProduct().getId());
+            Product product = this.productService.getProductById(item.getProduct().getId());
             product.reduceStock(item.getItemQuantity());
         }
         cart.clear();

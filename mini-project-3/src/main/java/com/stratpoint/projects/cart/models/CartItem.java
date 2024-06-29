@@ -29,7 +29,6 @@ public class CartItem {
     public void decrementQuantity() {
         if (this.itemQuantity > 0) {
             this.itemQuantity--;
-            logger.info("Successfully decremented item quantity.");
         }
         else {
             logger.warn("Cannot decrement quantity below 0.");
@@ -41,5 +40,14 @@ public class CartItem {
         else {
             logger.warn("Cannot increment item quantity above product stock quantity.");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "id=" + this.product.getId() +
+                ", productName=" + this.product.getProductName() +
+                ", productPrice=" + this.product.getProductPrice() +
+                ", productDescription=" + this.product.getProductDescription() +
+                ", itemQuantity=" + this.itemQuantity;
     }
 }
