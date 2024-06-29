@@ -42,17 +42,22 @@ public class Cart{
         return true;
     }
 
-    private void removeItem(Product product) {
+    public boolean removeItem(Product product) {
         CartItem existingItem = getCartItem(product.getId());
         if (existingItem != null) {
             if (existingItem.getItemQuantity() > 1) {
                 existingItem.decrementQuantity();
+                logger.info("Successfully decremented item quantity of {}", product.getProductName());
+                return true;
             }
             else {
                 cartItems.remove(existingItem);
                 logger.info("Removed product {} from the cart", product.getProductName());
+                return true;
             }
         }
+        logger.warn("Could not remove product {} from cart", product.getProductName());
+        return false;
     }
 
     private CartItem getCartItem(int productId) {
