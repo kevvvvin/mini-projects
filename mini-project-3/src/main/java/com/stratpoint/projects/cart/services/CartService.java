@@ -4,7 +4,7 @@ import com.stratpoint.projects.cart.models.Cart;
 import com.stratpoint.projects.cart.models.Product;
 
 /**
- * Represents a service for managing a shopping cart.
+ * This interface represents a service for managing a shopping cart.
  */
 public interface CartService {
 

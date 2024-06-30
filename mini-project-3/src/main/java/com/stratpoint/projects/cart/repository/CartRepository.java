@@ -4,7 +4,7 @@ import com.stratpoint.projects.cart.models.Cart;
 import com.stratpoint.projects.cart.models.Product;
 
 /**
- * Repository interface for managing shopping cart data.
+ * This interface represents a repository for managing shopping cart data.
  */
 public interface CartRepository {
 

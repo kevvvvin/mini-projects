@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Represents a product with its attributes and methods.
+ * This class represents a product with its attributes and methods.
  */
 public class Product {
 

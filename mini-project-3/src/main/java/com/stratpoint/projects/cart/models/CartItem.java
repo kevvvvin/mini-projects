@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A class representing an item in a shopping cart.
+ * This class represents an item in a shopping cart.
  */
 public class CartItem {
 

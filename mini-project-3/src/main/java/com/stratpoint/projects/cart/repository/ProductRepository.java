@@ -5,7 +5,7 @@ import com.stratpoint.projects.cart.models.Product;
 import java.util.List;
 
 /**
- * Interface for a repository that handles Product objects.
+ * This interface represents a repository that handles Product objects.
  */
 public interface ProductRepository {
 

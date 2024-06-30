@@ -14,7 +14,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- * Main class acting as the controller for the shopping cart application
+ * This is the Main class acting as the controller for the shopping cart application
  */
 public class Main
 {
