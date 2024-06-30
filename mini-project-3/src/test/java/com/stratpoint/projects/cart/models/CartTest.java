@@ -1,6 +1,5 @@
 package com.stratpoint.projects.cart.models;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,11 +21,6 @@ public class CartTest {
         cart = new Cart();
         product1 = new Product("Product1", 5.99, "Description1", 10);
         product2 = new Product("Product2", 10.99, "Description2", 0);
-    }
-
-    @AfterEach
-    public void tearDown() {
-        cart.clear();
     }
 
     @Test

@@ -2,7 +2,6 @@ package com.stratpoint.projects.cart.repository.impl;
 
 import com.stratpoint.projects.cart.models.Cart;
 import com.stratpoint.projects.cart.models.Product;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.lang.reflect.Field;
@@ -25,11 +24,6 @@ public class CartRepositoryImplTest {
         product1 = new Product("Test Product", 10, "Description", 2);
         product2 = new Product("Test Product 2", 5, "Description 2", 5);
         cartRepository = new CartRepositoryImpl();
-    }
-
-    @AfterEach
-    public void tearDown() {
-        cartRepository.getCart().clear();
     }
 
     @Test
