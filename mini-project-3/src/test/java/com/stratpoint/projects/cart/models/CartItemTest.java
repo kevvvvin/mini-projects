@@ -15,17 +15,14 @@ public class CartItemTest {
     private Product product2;
 
     @BeforeEach
-    public void setUp() {
-        product1 = new Product("Test Product1", 10, "Test Product Description1", 10);
-        product2 = new Product("Test Product2", 2, "Test Product Description2", 2);
-        cartItem = new CartItem(product1, 5);
-    }
-
-    @AfterEach
-    public void tearDown() throws NoSuchFieldException, IllegalAccessException {
+    public void setUp() throws NoSuchFieldException, IllegalAccessException {
         Field idField = Product.class.getDeclaredField("ID");
         idField.setAccessible(true);
         idField.set(null, 1);
+
+        product1 = new Product("Test Product1", 10, "Test Product Description1", 10);
+        product2 = new Product("Test Product2", 2, "Test Product Description2", 2);
+        cartItem = new CartItem(product1, 5);
     }
 
     @Test

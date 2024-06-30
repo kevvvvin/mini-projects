@@ -13,7 +13,6 @@ public class ProductTest {
 
     @BeforeEach
     public void setUp() throws IllegalAccessException, NoSuchFieldException {
-
         // Reset static unique ID variable to 1
         Field idField = Product.class.getDeclaredField("ID");
         idField.setAccessible(true);
@@ -21,13 +20,6 @@ public class ProductTest {
 
         product1 = new Product("Test Product", 10, "Description", 2);
         product2 = new Product("Test Product 2", 5, "Description 2", 5);
-    }
-
-    @AfterEach
-    public void tearDown() throws NoSuchFieldException, IllegalAccessException {
-        Field idField = Product.class.getDeclaredField("ID");
-        idField.setAccessible(true);
-        idField.set(null, 1);
     }
 
     @Test
