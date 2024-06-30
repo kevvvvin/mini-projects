@@ -14,6 +14,8 @@ This repository contains multiple Java project outputs for the Stratpoint Java i
 - A simple calculator that can handle basic arithmetic operations based on numbers and operators entered by the user.
 2. **Mini Project 2: Library Management System**  
 - A library management system that allows a user to add and remove books from the library, or search for different types books in the library.
+3. **Mini Project 3: E-commerce Cart System**
+- A shopping cart system that allows a user to add and remove products from the list of products, and checkout the current items in the cart.
 
 ## Getting Started
 

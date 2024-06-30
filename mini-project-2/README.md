@@ -13,18 +13,18 @@ removing books by their ID, and searching for books based on various criteria su
 ## Installation
 
 1. Clone the repository:
-   ```sh
-   git clone https://github.com/kevvvvin/mini-projects-2.git
-   ```
+```sh
+git clone https://github.com/kevvvvin/mini-projects.git
+```
 2. Navigate into the project repository:
-  ```sh
-  cd mini-projects-2
-  ```
+```sh
+cd mini-project-2
+```
 3. Build and Run the project using Maven:
-  ```sh
-  mvn clean install
-  mvn exec:java
-  ```
+```sh
+mvn clean install
+mvn exec:java
+```
 ## How to Use
 ### Program Instructions 
 ```
