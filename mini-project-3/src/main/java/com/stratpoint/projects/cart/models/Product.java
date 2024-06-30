@@ -88,6 +88,11 @@ public class Product {
         return this.productPrice;
     }
 
+    /**
+     * Returns the description of the product.
+     *
+     * @return the description of the product
+     */
     public String getProductDescription() {
         return this.productDescription;
     }

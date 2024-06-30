@@ -5,6 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.stratpoint.projects.cart.models.CartItem;
+
 /**
  * This class represents a Cart object.
  */
@@ -28,13 +30,12 @@ public class Cart{
     }
 
     /**
-     * This method returns the list of CartItems in the Cart.
-     * It provides access to the contents of the cart.
+     * Returns the list of items in the cart.
      *
-     * @return List<CartItem> The list of CartItems in the Cart.
+     * @return The list of items in the cart.
      */
     public List<CartItem> getCartItems() {
-        return cartItems;
+        return this.cartItems;
     }
 
     /**
